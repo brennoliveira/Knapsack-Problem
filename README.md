@@ -16,7 +16,7 @@ O objetivo é que se preencha a mochila com o maior valor possível, não ultrap
 ## Framework
 Foi utilizado o Framework [Deap](https://deap.readthedocs.io/en/master/)
 
-##  Requerimentos
+##  Como deve ser testado
 Para realizar a instalação da biblioteca, vá para o prompt de comando, selecione a pasta do projeto e digite o comando:
 
 ```pip install deap```
