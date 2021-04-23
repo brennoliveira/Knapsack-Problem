@@ -6,11 +6,11 @@ from deap import algorithms, base, creator, tools
 MAX_WEIGHT = 50
 print(f"Max weight is: {MAX_WEIGHT}\n")
 
-# Items generation function
+# Items generator function
 def generate_items(numberOfItems):
     items = []
-    '''Ganerating random items (Weight & Value)
-        and sotring them into the items' list '''
+    '''Generating random items (Weight & Value)
+        and storing them into the items' list '''
     for i in range(numberOfItems):
         items.append({"Weight": random.randint(1, 10), "Value": random.uniform(1, 100)})
 
@@ -33,7 +33,7 @@ creator.create("Individual", list, fitness=creator.Fitness)
 # Initializing Toolbox
 toolbox = base.Toolbox()
 
-# Registering random attribute
+# Registering a random attribute
 toolbox.register("attr_bool", random.random)
 
 # Initializing individual and population
@@ -51,7 +51,7 @@ def evalOneMax(individual):
             value += items[index]['Value']
             weight += items[index]['Weight']
 
-    # Checking if the bag isn't overweighted
+    # Checking if the bag isn't overweight
     if weight > MAX_WEIGHT:
         return 100000000, 0
     return weight, value
@@ -64,7 +64,7 @@ def getItems(individual):
             _items.append((index, items[index]))
     return _items
  
-# Registering the Evaluation method, the Mutation and Selection into the toolbox
+# Registering the Evaluation method, the Mutation, and Selection into the toolbox
 toolbox.register("evaluate", evalOneMax)
 toolbox.register("mate", tools.cxTwoPoint)
 toolbox.register("mutate", tools.mutFlipBit, indpb=0.5)
@@ -73,13 +73,13 @@ toolbox.register("select", tools.selNSGA2)
 # Defining the population size
 population = toolbox.population(n=300)
 
-# Defining number of generations
+# Defining the number of generations
 numberOfGen = 50
 
 # Evolution process
 for gen in range(numberOfGen):
 
-    # The algorithms module implements many evolutionary algorithms
+    # The Algorithms module implements many evolutionary algorithms
     # https://deap.readthedocs.io/en/master/api/algo.html
     # The function "varAnd" applies Mutation and Crossover operations
     # cxpb: Crossover probability
@@ -93,7 +93,7 @@ for gen in range(numberOfGen):
     for fit, ind in zip(fits, offspring):
         ind.fitness.values = [fit[1]]
 
-    # Applies the selection to generate a new population
+    # Applies the select method to generate a new population
     population = toolbox.select(offspring, k=len(population))
 
 # Returns the best K individuals from the last population
@@ -108,6 +108,6 @@ for item in getItems(topX[0]):
 
 print("")
 
-# Printing the total Value and Weight of the bag
+# Printing the total Value and Weight from every item from the bag
 print(f"Total Value: {sum(list(map(lambda x: x[1]['Value'], getItems(topX[0])))):.2f}")
 print(f"Total Weight: {sum(list(map(lambda x: x[1]['Weight'], getItems(topX[0])))):.2f}")
